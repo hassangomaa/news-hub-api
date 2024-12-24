@@ -1,66 +1,146 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# News Hub API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Overview
+The News Hub API is a robust, feature-rich platform designed and developed by Eng. Hassan Gomaa to aggregate and process news articles from multiple sources, including:
 
-## About Laravel
+- **The Guardian API**
+- **New York Times API**
+- **NewsAPI**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The system provides categorized, filtered, and sanitized news content while implementing industry-standard security and optimization practices.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Key Features
 
-## Learning Laravel
+### 1. Command-Line Integration for APIs
+Easily fetch and seed articles into the database using the following commands:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### **The Guardian API**
+```bash
+php artisan guardianapi:fetch --section=technology --from-date=2024-01-01
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+#### **New York Times API**
+```bash
+php artisan nytimes:fetch --query=technology --begin-date=20240101 --end-date=20241231 --page=0
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### **NewsAPI**
+```bash
+php artisan newsapi:test --country=us --category=business --source=newsapi
+```
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. Configurable API Keys
+The API requires the following keys, which must be defined in the `.env` file:
 
-### Premium Partners
+```env
+NEWSAPI_API_KEY=<YOUR_NEWSAPI_KEY>
+GUARDIAN_API_KEY=<YOUR_GUARDIAN_KEY>
+NYT_API_KEY=<YOUR_NYT_KEY>
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+### 3. RESTful API Endpoints
+This system provides a set of endpoints to interact with articles, authors, sources, and categories:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### **Articles**
+- **GET /api/articles**: List all articles with filters and pagination.
 
-## Code of Conduct
+#### **Authors**
+- **GET /api/authors**: List all authors with optional filters and pagination.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### **Sources**
+- **GET /api/sources**: List all sources with optional filters and pagination.
 
-## Security Vulnerabilities
+#### **Categories**
+- **GET /api/categories**: List all categories with optional filters and pagination.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+### 4. Middleware for Security
+The platform incorporates advanced middleware to:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- **Prevent XSS and injection attacks**: Using a custom XSS sanitizer.
+- **Rate Limiting**: Throttle API requests to 30 requests per minute to ensure stability.
+
+---
+
+### 5. Database Schema
+The project utilizes a relational database with the following key tables:
+
+- `articles`: Stores article data, including title, URL, publication date, etc.
+- `authors`: Stores author information.
+- `sources`: Stores information about news sources.
+- `categories`: Stores categories to which articles belong.
+
+Refer to the attached SQL schema for details.
+
+---
+
+## Project Structure
+The project is organized into a clean and modular structure for maintainability:
+
+```plaintext
+app/
+├── Console/Commands   # Artisan commands for APIs
+├── Exceptions         # Custom exception handling
+├── Helpers            # Helper classes for seeding and utilities
+├── Http               # Controllers, middleware, requests, resources
+├── Models             # Eloquent models
+├── Providers          # Service providers
+├── Repositories       # Data repositories
+├── Services           # Service classes for API integrations
+├── Traits             # Shared traits
+```
+
+---
+
+## How to Run
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/hassangomaa/news-hub-api.git
+```
+
+### 2. Install Dependencies
+```bash
+composer install
+```
+
+### 3. Set Environment Variables
+Create a `.env` file and add the required environment variables (API keys and database configuration).
+
+### 4. Run Migrations
+```bash
+php artisan migrate
+```
+
+### 5. Seed the Database
+You can seed articles by running the respective API commands.
+
+### 6. Start the Server
+```bash
+php artisan serve
+```
+
+---
+
+## API Documentation
+Detailed API documentation is available and should be updated regularly using Swagger.
+
+---
+
+## Developer Notes
+- **Rate Limiting**: Configured at `throttle:30,1`.
+- **Security**: Includes middleware for XSS sanitization and request validation.
+- **Logging**: All API and command errors are logged for debugging.
+
+---
+
+## Acknowledgments
+This project is fully developed and maintained by Eng. Hassan Gomaa. It integrates cutting-edge technologies and practices to deliver a seamless news aggregation experience.
+

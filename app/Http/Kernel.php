@@ -43,7 +43,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             'XssSanitizer',
-            //'throttle:60,1',
+            'throttle:30,1',
         ],
     ];
 
