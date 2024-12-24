@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        $this->call(SourcesTableSeeder::class);
-        \App\Models\Article::factory(50)->create(); // Adjust the number of articles as needed
+        // $this->call(SourcesTableSeeder::class);
+        // \App\Models\Article::factory(50)->create(); // Adjust the number of articles as needed
 
     }
 }

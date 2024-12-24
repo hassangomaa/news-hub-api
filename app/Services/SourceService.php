@@ -17,4 +17,9 @@ class SourceService
     {
         return $this->sourceRepository->getAll($filters, $perPage);
     }
+
+    public function createOrUpdate(array $data)
+    {
+        return $this->sourceRepository->updateOrCreate(['name' => $data['name']], $data);
+    }
 }

@@ -6,6 +6,14 @@ use App\Models\Article;
 
 class ArticleRepository
 {
+    protected $model;
+
+    public function __construct(Article $model)
+    {
+        $this->model = $model;
+    }
+
+
     /**
      * Get paginated and filtered articles.
      *
@@ -15,7 +23,7 @@ class ArticleRepository
      */
     public function getAll(array $filters = [], $perPage = 10)
     {
-        $query = Article::query()->with(['category', 'author', 'source']);
+        $query = $this->model::query()->with(['category', 'author', 'source']);
 
         // Apply filters
         if (!empty($filters['title'])) {
@@ -41,32 +49,63 @@ class ArticleRepository
         return $query->paginate($perPage);
     }
 
-    /**
-     * Get a single article by ID.
-     *
-     * @param string $id
-     * @return \App\Models\Article
-     */
-    public function findById(string $id)
-    {
-        return Article::findOrFail($id);
-    }
+
 
     public function create(array $data)
     {
-        return Article::create($data);
+        return $this->model::create($data);
     }
 
-    public function update(string $id, array $data)
+    /**
+     * Get existing URLs from the database.
+     *
+     * @param array $urls
+     * @return array
+     */
+    public function getExistingUrls(array $urls)
     {
-        $article = $this->findById($id);
-        $article->update($data);
-        return $article;
+        return $this->model->whereIn('url', $urls)->pluck('url')->toArray();
     }
 
-    public function delete(string $id)
+    /**
+     * Bulk insert articles.
+     *
+     * @param array $articlesData
+     * @return void
+     */
+    public function insertMany(array $articlesData)
     {
-        $article = $this->findById($id);
-        $article->delete();
+        try {
+            // Pre-filter to remove already existing URLs
+            $existingUrls = $this->getExistingUrls(array_column($articlesData, 'url'));
+            $filteredArticles = array_filter($articlesData, function ($article) use ($existingUrls) {
+                return !in_array($article['url'], $existingUrls);
+            });
+
+            // Add UUIDs manually since `insert` bypasses Eloquent events
+            $processedArticles = array_map(function ($article) {
+                $article['id'] = (string) \Illuminate\Support\Str::uuid();
+                $article['created_at'] = now();
+                $article['updated_at'] = now();
+                return $article;
+            }, $filteredArticles);
+
+            // Perform bulk insert
+            if (!empty($processedArticles)) {
+                $this->model->insert($processedArticles);
+            }
+        } catch (\Exception $e) {
+            \Log::error("Error inserting articles: " . $e->getMessage());
+            throw $e;
+        }
     }
+
+
+
+    public function updateOrCreate(array $conditions, array $data)
+    {
+        return $this->model->updateOrCreate($conditions, $data);
+    }
+
+
 }

@@ -36,9 +36,9 @@ class CreateArticleRequest extends FormRequest
             'description' => 'nullable|string',
             'url' => 'required|url|unique:articles,url',
             'published_at' => 'nullable|date',
-            'source_id' => 'required|uuid|exists:sources,id',
+            'source_id' => 'nullable|uuid|exists:sources,id',
             'author_id' => 'nullable|uuid|exists:authors,id',
-            'category_id' => 'required|uuid|exists:categories,id',
+            'category_id' => 'nullable|uuid|exists:categories,id',
         ];
     }
 

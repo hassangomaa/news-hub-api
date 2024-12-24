@@ -6,17 +6,29 @@ use App\Models\Author;
 
 class AuthorRepository
 {
+
+    protected $model;
+
+    public function __construct(Author $model)
+    {
+        $this->model = $model;
+    }
     /**
      * Get a paginated list of authors with optional filters.
      */
     public function getAll(array $filters = [], $perPage = 10)
     {
-        $query = Author::query();
+        $query = $this->model::query();
 
         if (!empty($filters['name'])) {
             $query->where('name', 'like', '%' . $filters['name'] . '%');
         }
 
         return $query->paginate($perPage);
+    }
+
+    public function updateOrCreate(array $conditions, array $data)
+    {
+        return $this->model->updateOrCreate($conditions, $data);
     }
 }

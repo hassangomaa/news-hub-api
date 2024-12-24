@@ -20,4 +20,9 @@ class AuthorService
     {
         return $this->authorRepository->getAll($filters, $perPage);
     }
+
+    public function createOrUpdate(array $data)
+    {
+        return $this->authorRepository->updateOrCreate(['name' => $data['name']], $data);
+    }
 }

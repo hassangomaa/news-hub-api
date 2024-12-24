@@ -1,18 +1,17 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Article\IndexArticleRequest;
-use App\Http\Requests\Article\ShowArticleRequest;
 use App\Http\Requests\Article\CreateArticleRequest;
-use App\Http\Requests\Article\UpdateArticleRequest;
-use App\Http\Requests\Article\DeleteArticleRequest;
 use App\Http\Resources\ArticleResource;
 use App\Services\ArticleService;
+use App\Traits\ResponsesTrait;
 
 class ArticleController extends Controller
 {
+    use ResponsesTrait;
+
     protected $articleService;
 
     public function __construct(ArticleService $articleService)
@@ -23,54 +22,52 @@ class ArticleController extends Controller
     /**
      * List all articles with filters and pagination.
      */
-    public function index(IndexArticleRequest $request)
+    public function index(IndexArticleRequest $request): \Illuminate\Http\JsonResponse
     {
-        $filters = $request->validated();
-        $perPage = $filters['per_page'] ?? 10;
-        unset($filters['per_page']);
+        try {
+            $filters = $request->validated();
+            $perPage = $filters['per_page'] ?? 10;
+            unset($filters['per_page']);
 
-        $articles = $this->articleService->getAllArticles($filters, $perPage);
+            $articles = $this->articleService->getAllArticles($filters, $perPage);
 
-        return ArticleResource::collection($articles);
+            // Add pagination metadata
+            $meta = [
+                'total' => $articles->total(),
+                'current_page' => $articles->currentPage(),
+                'last_page' => $articles->lastPage(),
+                'per_page' => $articles->perPage(),
+            ];
+
+            return $this->success(
+                ArticleResource::collection($articles),
+                'Articles retrieved successfully.',
+                200,
+                $meta
+            );
+        } catch (\Exception $e) {
+            \Log::error("Error fetching articles: {$e->getMessage()}");
+            return $this->failed(null, 'Failed to retrieve articles.', 500);
+        }
     }
 
-    /**
-     * Show a single article by ID.
-     */
-    public function show(ShowArticleRequest $request, $id)
-    {
-        $article = $this->articleService->getArticleById($id);
-
-        return new ArticleResource($article);
-    }
 
     /**
      * Create a new article.
      */
     public function store(CreateArticleRequest $request)
     {
-        $article = $this->articleService->createArticle($request->validated());
+        try {
+            $article = $this->articleService->createArticle($request->validated());
 
-        return new ArticleResource($article);
-    }
-
-    /**
-     * Update an article by ID.
-     */
-    public function update(UpdateArticleRequest $request, $id)
-    {
-        $article = $this->articleService->updateArticle($id, $request->validated());
-
-        return new ArticleResource($article);
-    }
-
-    /**
-     * Delete an article by ID.
-     */
-    public function destroy(DeleteArticleRequest $request, $id)
-    {
-        $this->articleService->deleteArticle($id);
-
-        return response()->json(['message' => 'Article deleted successfully.'], 200);
+            return $this->success(
+                new ArticleResource($article),
+                'Article created successfully.',
+                201
+            );
+        } catch (\Exception $e) {
+            \Log::error("Error creating article: {$e->getMessage()}");
+            return $this->failed(null, 'Failed to create article.');
+        }
     }
 }

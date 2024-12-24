@@ -18,23 +18,46 @@ class ArticleService
         return $this->articleRepository->getAll($filters, $perPage);
     }
 
-    public function getArticleById(string $id)
-    {
-        return $this->articleRepository->findById($id);
-    }
 
     public function createArticle(array $data)
     {
         return $this->articleRepository->create($data);
     }
 
-    public function updateArticle(string $id, array $data)
+
+    /**
+     * Bulk create articles.
+     *
+     * @param array $articlesData
+     * @return void
+     */
+    public function createManyArticles(array $articlesData)
     {
-        return $this->articleRepository->update($id, $data);
+        // Filter out duplicates based on `url`
+        $existingUrls = $this->articleRepository->getExistingUrls(array_column($articlesData, 'url'));
+
+        $filteredArticles = array_filter($articlesData, function ($article) use ($existingUrls) {
+            return !in_array($article['url'], $existingUrls);
+        });
+
+        if (!empty($filteredArticles)) {
+            // dd($filteredArticles);
+            // Perform bulk insert for filtered articles
+            $this->articleRepository->insertMany($filteredArticles);
+            \Log::info(count($filteredArticles) . " articles inserted successfully.");
+        } else {
+            \Log::info("No new articles to insert.");
+        }
     }
 
-    public function deleteArticle(string $id)
+
+
+
+    public function createOrUpdate(array $data)
     {
-        $this->articleRepository->delete($id);
+        return $this->articleRepository->updateOrCreate(['url' => $data['url']], $data);
     }
+
+
+
 }
