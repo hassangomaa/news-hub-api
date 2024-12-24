@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Article extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id';
+    public $incrementing = false;
 
     protected $fillable = [
         'title',
@@ -18,6 +21,13 @@ class Article extends Model
         'url',
         'published_at',
     ];
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->id = Str::uuid()->toString();
+        });
+    }
 
     public function source()
     {
