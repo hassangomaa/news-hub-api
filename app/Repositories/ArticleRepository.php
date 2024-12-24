@@ -15,7 +15,7 @@ class ArticleRepository
      */
     public function getAll(array $filters = [], $perPage = 10)
     {
-        $query = Article::query();
+        $query = Article::query()->with(['category', 'author', 'source']);
 
         // Apply filters
         if (!empty($filters['title'])) {

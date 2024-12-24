@@ -17,8 +17,6 @@ class SourceResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'api_key' => $this->api_key,
-            'base_url' => $this->base_url,
         ];
     }
 }

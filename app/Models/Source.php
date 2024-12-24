@@ -18,6 +18,11 @@ class Source extends Model
         'base_url',
     ];
 
+    protected $hidden = [
+        'api_key',
+        'base_url',
+    ];
+
     protected static function boot()
     {
         parent::boot();
