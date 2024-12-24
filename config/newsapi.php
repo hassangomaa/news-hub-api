@@ -10,5 +10,9 @@ return [
             'api_key' => env('GUARDIAN_API_KEY'),
             'base_url' => 'https://content.guardianapis.com/',
         ],
+        'nytimes' => [
+            'api_key' => env('NYT_API_KEY'),
+            'base_url' => 'https://api.nytimes.com/svc/search/v2/articlesearch.json',
+        ],
     ],
 ];
