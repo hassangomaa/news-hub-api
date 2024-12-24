@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Article;
+namespace App\Http\Requests\Author;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Traits\ResponsesTrait;
 use Illuminate\Contracts\Validation\Validator;
-class UpdateArticleRequest extends CreateArticleRequest
+class CreateAuthorRequest extends FormRequest
 {
-
-
     use ResponsesTrait;
 
     public function failedValidation(Validator $validator)
@@ -17,6 +15,13 @@ class UpdateArticleRequest extends CreateArticleRequest
         throw new HttpResponseException($this->failed(null, $validator->errors()->first()));
     }
 
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -25,8 +30,17 @@ class UpdateArticleRequest extends CreateArticleRequest
      */
     public function rules(): array
     {
-        $rules = parent::rules();
-        $rules['url'] = 'required|url|unique:articles,url,' . $this->route('id'); // Allow the same URL for the current article
-        return $rules;
+        return [
+            'name' => 'required|string|max:255|unique:authors,name',
+        ];
+    }
+
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'The author name is required.',
+            'name.unique' => 'The author name must be unique.',
+        ];
     }
 }

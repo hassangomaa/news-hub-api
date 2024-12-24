@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Article;
+namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Traits\ResponsesTrait;
 use Illuminate\Contracts\Validation\Validator;
-class DeleteArticleRequest extends ShowArticleRequest
+class CreateCategoryRequest extends FormRequest
 {
 
     use ResponsesTrait;
@@ -14,6 +14,13 @@ class DeleteArticleRequest extends ShowArticleRequest
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException($this->failed(null, $validator->errors()->first()));
+    }
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
     }
 
     /**
@@ -23,7 +30,17 @@ class DeleteArticleRequest extends ShowArticleRequest
      */
     public function rules(): array
     {
-        $rules = parent::rules();
-        return $rules;
+        return [
+            'name' => 'required|string|max:255|unique:categories,name',
+        ];
+    }
+
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'The category name is required.',
+            'name.unique' => 'The category name must be unique.',
+        ];
     }
 }

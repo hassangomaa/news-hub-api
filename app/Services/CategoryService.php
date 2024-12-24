@@ -17,4 +17,11 @@ class CategoryService
     {
         return $this->categoryRepository->getAll($filters, $perPage);
     }
+
+
+    public function createOrUpdate(array $data)
+    {
+        return $this->categoryRepository->updateOrCreate(['name' => $data['name']], $data);
+    }
+
 }

@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Requests\Article;
+namespace App\Http\Requests\Source;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Traits\ResponsesTrait;
 use Illuminate\Contracts\Validation\Validator;
-class ShowArticleRequest extends FormRequest
+class CreateSourceRequest extends FormRequest
 {
-
     use ResponsesTrait;
 
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException($this->failed(null, $validator->errors()->first()));
     }
+
 
     /**
      * Determine if the user is authorized to make this request.
@@ -32,7 +32,16 @@ class ShowArticleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|uuid|exists:articles,id',
+            'name' => 'required|string|max:255|unique:sources,name',
+        ];
+    }
+
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'The source name is required.',
+            'name.unique' => 'The source name must be unique.',
         ];
     }
 }

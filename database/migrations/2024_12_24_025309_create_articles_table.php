@@ -18,9 +18,9 @@ return new class extends Migration {
             $table->timestamp('published_at')->index(); //index for faster search
             $table->timestamps();
             //relationship columns  - Foreign keys
-            $table->string('source_id')->index();  
-            $table->string('author_id')->index();  
-            $table->string('category_id')->index();  
+            $table->string('source_id')->index()->nullable();
+            $table->string('author_id')->index()->nullable();
+            $table->string('category_id')->index()->nullable();
         });
     }
 
