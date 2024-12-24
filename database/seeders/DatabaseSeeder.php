@@ -20,5 +20,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call(SourcesTableSeeder::class);
+        \App\Models\Article::factory(50)->create(); // Adjust the number of articles as needed
+
     }
 }
