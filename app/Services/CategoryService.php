@@ -13,9 +13,9 @@ class CategoryService
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function getAllCategories(array $filters, $perPage)
+    public function getAllCategories(array $filters, int $perPage, int $page)
     {
-        return $this->categoryRepository->getAll($filters, $perPage);
+        return $this->categoryRepository->getAll($filters, $perPage, $page);
     }
 
 

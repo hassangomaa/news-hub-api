@@ -19,7 +19,7 @@ class ArticleResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'url' => $this->url,
-            'published_at' => $this->published_at,
+            'publishedAt' => $this->published_at,
             'author' => AuthorResource::make($this->whenLoaded('author')),
             'source' => SourceResource::make($this->whenLoaded('source')),
             'category' => CategoryResource::make($this->whenLoaded('category')),

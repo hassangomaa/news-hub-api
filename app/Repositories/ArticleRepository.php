@@ -21,7 +21,7 @@ class ArticleRepository
      * @param int $perPage
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getAll(array $filters = [], $perPage = 10)
+    public function getAll(array $filters = [], $perPage, $page)
     {
         $query = $this->model::query()->with(['category', 'author', 'source']);
 
@@ -45,8 +45,8 @@ class ArticleRepository
         if (!empty($filters['published_at'])) {
             $query->whereDate('published_at', $filters['published_at']);
         }
+        return $query->paginate($perPage, ['*'], 'page', $page);
 
-        return $query->paginate($perPage);
     }
 
 

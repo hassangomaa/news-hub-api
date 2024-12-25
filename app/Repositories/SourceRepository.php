@@ -16,7 +16,7 @@ class SourceRepository
 
 
 
-    public function getAll(array $filters = [], $perPage = 10)
+    public function getAll(array $filters = [], $perPage, $page)
     {
         $query = $this->model::query();
 
@@ -24,7 +24,7 @@ class SourceRepository
             $query->where('name', 'like', '%' . $filters['name'] . '%');
         }
 
-        return $query->paginate($perPage);
+        return $query->paginate($perPage, ['*'], 'page', $page);
     }
 
 

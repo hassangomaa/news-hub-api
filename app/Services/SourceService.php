@@ -13,9 +13,9 @@ class SourceService
         $this->sourceRepository = $sourceRepository;
     }
 
-    public function getAllSources(array $filters, $perPage)
+    public function getAllSources(array $filters, int $perPage, int $page)
     {
-        return $this->sourceRepository->getAll($filters, $perPage);
+        return $this->sourceRepository->getAll($filters, $perPage, $page);
     }
 
     public function createOrUpdate(array $data)

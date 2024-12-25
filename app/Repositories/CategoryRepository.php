@@ -15,15 +15,15 @@ class CategoryRepository
         $this->model = $model;
     }
 
-    public function getAll(array $filters = [], $perPage = 10)
+    public function getAll(array $filters = [], $perPage, $page)
     {
         $query = $this->model::query();
 
         if (!empty($filters['name'])) {
             $query->where('name', 'like', '%' . $filters['name'] . '%');
         }
+        return $query->paginate($perPage, ['*'], 'page', $page);
 
-        return $query->paginate($perPage);
     }
 
 

@@ -13,9 +13,9 @@ class ArticleService
         $this->articleRepository = $articleRepository;
     }
 
-    public function getAllArticles(array $filters, int $perPage)
+    public function getAllArticles(array $filters, int $perPage, int $page)
     {
-        return $this->articleRepository->getAll($filters, $perPage);
+        return $this->articleRepository->getAll($filters, $perPage, $page);
     }
 
 

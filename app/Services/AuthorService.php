@@ -16,9 +16,9 @@ class AuthorService
     /**
      * Get all authors with optional filters and pagination.
      */
-    public function getAllAuthors(array $filters, $perPage)
+    public function getAllAuthors(array $filters, int $perPage, int $page)
     {
-        return $this->authorRepository->getAll($filters, $perPage);
+        return $this->authorRepository->getAll($filters, $perPage, $page);
     }
 
     public function createOrUpdate(array $data)
