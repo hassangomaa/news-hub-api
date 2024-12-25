@@ -16,7 +16,7 @@ class AuthorRepository
     /**
      * Get a paginated list of authors with optional filters.
      */
-    public function getAll(array $filters = [], $perPage = 10)
+    public function getAll(array $filters = [], $perPage, $page)
     {
         $query = $this->model::query();
 
@@ -24,7 +24,8 @@ class AuthorRepository
             $query->where('name', 'like', '%' . $filters['name'] . '%');
         }
 
-        return $query->paginate($perPage);
+        return $query->paginate($perPage, ['*'], 'page', $page);
+
     }
 
     public function updateOrCreate(array $conditions, array $data)

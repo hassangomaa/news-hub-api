@@ -44,4 +44,21 @@ trait ResponsesTrait
             'data' => $data,
         ], $status);
     }
+
+
+    /**
+     * Generate standardized meta for pagination.
+     *
+     * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
+     * @return array
+     */
+    public function generateMeta($paginator): array
+    {
+        return [
+            'currentPage' => $paginator->currentPage(),
+            'perPage' => $paginator->perPage(),
+            'total' => $paginator->total(),
+            'lastPage' => $paginator->lastPage(),
+        ];
+    }
 }

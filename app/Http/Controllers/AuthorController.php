@@ -25,17 +25,10 @@ class AuthorController extends Controller
     {
         try {
             $filters = $request->validated();
-            $perPage = $filters['per_page'] ?? 10;
 
-            $authors = $this->authorService->getAllAuthors($filters, $perPage);
+            $authors = $this->authorService->getAllAuthors($filters, $filters['per_page'], $filters['page']);
 
-            // Add pagination metadata
-            $meta = [
-                'total' => $authors->total(),
-                'current_page' => $authors->currentPage(),
-                'last_page' => $authors->lastPage(),
-                'per_page' => $authors->perPage(),
-            ];
+            $meta = $this->generateMeta($authors);
 
             return $this->success(
                 AuthorResource::collection($authors),

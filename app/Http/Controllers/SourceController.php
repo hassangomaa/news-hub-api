@@ -23,18 +23,10 @@ class SourceController extends Controller
     {
         try {
             $filters = $request->validated();
-            $perPage = $filters['per_page'] ?? 10;
 
-            $sources = $this->sourceService->getAllSources($filters, $perPage);
+            $sources = $this->sourceService->getAllSources($filters, $filters['per_page'], $filters['page']);
 
-            // Add pagination metadata
-            $meta = [
-                'total' => $sources->total(),
-                'current_page' => $sources->currentPage(),
-                'last_page' => $sources->lastPage(),
-                'per_page' => $sources->perPage(),
-            ];
-
+            $meta = $this->generateMeta($sources);
             return $this->success(
                 SourceResource::collection($sources),
                 'Sources retrieved successfully.',

@@ -26,18 +26,11 @@ class ArticleController extends Controller
     {
         try {
             $filters = $request->validated();
-            $perPage = $filters['per_page'] ?? 10;
-            unset($filters['per_page']);
 
-            $articles = $this->articleService->getAllArticles($filters, $perPage);
+            $articles = $this->articleService->getAllArticles($filters, $filters['per_page'], $filters['page']);
 
-            // Add pagination metadata
-            $meta = [
-                'total' => $articles->total(),
-                'current_page' => $articles->currentPage(),
-                'last_page' => $articles->lastPage(),
-                'per_page' => $articles->perPage(),
-            ];
+            $meta = $this->generateMeta($articles);
+
 
             return $this->success(
                 ArticleResource::collection($articles),

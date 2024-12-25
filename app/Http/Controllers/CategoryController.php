@@ -25,21 +25,18 @@ class CategoryController extends Controller
         try {
             // Validate and process the request data
             $filters = $request->validated();
-            $perPage = $filters['per_page'] ?? 10;
 
             // Retrieve categories with filters and pagination
-            $categories = $this->categoryService->getAllCategories($filters, $perPage);
+            $categories = $this->categoryService->getAllCategories($filters, $filters['per_page'], $filters['page']);
 
-            // Add pagination metadata
-            $meta = [
-                'total' => $categories->total(),
-                'current_page' => $categories->currentPage(),
-                'last_page' => $categories->lastPage(),
-                'per_page' => $categories->perPage(),
-            ];
-
+            $meta = $this->generateMeta($categories);
             // Return a standardized success response with the data and metadata
-            return $this->success(CategoryResource::collection($categories), 'Categories retrieved successfully.', 200, $meta);
+            return $this->success(
+                CategoryResource::collection($categories),
+                'Categories retrieved successfully.',
+                200,
+                $meta
+            );
         } catch (\Exception $e) {
             // Log the error and return a standardized failure response
             \Log::error("Error retrieving categories: " . $e->getMessage());
