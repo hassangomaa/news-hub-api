@@ -2,46 +2,31 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Http;
-
-class GuardianAPIService
+class GuardianAPIService extends AbstractAPIService
 {
-    protected string $apiKey;
     protected string $baseUrl;
+    protected string $apiKey;
 
     public function __construct()
     {
         $this->apiKey = config('newsapi.sources.guardian.api_key');
         $this->baseUrl = config('newsapi.sources.guardian.base_url');
+        $this->keyPlacement = 'query'; // Key is sent in the query
+        $this->keyName = 'api-key'; // Query parameter name for the key
     }
 
-    /**
-     * Fetch articles from The Guardian API.
-     *
-     * @param string $section
-     * @param string $fromDate
-     * @param int $pageSize
-     * @return array
-     */
-    public function fetchArticles(string $section = 'technology', string $fromDate = '2024-01-01', int $pageSize = 50): array
+    protected function mapResponse(array $data): array
     {
-        try {
-            $response = Http::get("{$this->baseUrl}search", [
-                'api-key' => $this->apiKey,
-                'section' => $section,
-                'from-date' => $fromDate,
-                'show-fields' => 'headline,body',
-                'page-size' => $pageSize,
-            ]);
-
-            if ($response->successful()) {
-                return $response->json()['response']['results'] ?? [];
-            }
-
-            throw new \Exception('Failed to fetch articles: ' . $response->body());
-        } catch (\Exception $e) {
-            \Log::error('Error fetching articles from Guardian API: ' . $e->getMessage());
-            throw $e;
-        }
+        return array_map(function ($article) {
+            return [
+                'title' => $article['webTitle'] ?? '',
+                'description' => strip_tags($article['fields']['body'] ?? ''),
+                'url' => $article['webUrl'] ?? '',
+                'published_at' => $article['webPublicationDate'] ?? '',
+                'source' => 'The Guardian',
+                'author' => null, // Author is not provided by Guardian API
+                'category' => $article['sectionId'] ?? 'General',
+            ];
+        }, $data['response']['results'] ?? []);
     }
 }

@@ -12,7 +12,7 @@ return [
         ],
         'nytimes' => [
             'api_key' => env('NYT_API_KEY'),
-            'base_url' => 'https://api.nytimes.com/svc/search/v2/articlesearch.json',
+            'base_url' => 'https://api.nytimes.com/svc/search/v2/',
         ],
     ],
 ];

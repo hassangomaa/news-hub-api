@@ -4,9 +4,8 @@ namespace App\Console\Commands;
 
 use App\Services\NewsAPIService;
 use App\Helpers\ArticleSeeder;
-use Illuminate\Console\Command;
 
-class NewsAPI extends Command
+class NewsAPI extends BaseCommand
 {
     protected $signature = 'newsapi:test 
                             {--country=us : Country code for fetching news} 
@@ -14,26 +13,13 @@ class NewsAPI extends Command
                             {--source=newsapi : Source name from the configuration}';
     protected $description = 'Fetch data from the News API and seed the database.';
 
-    public function handle()
+    protected function fetchAndSeed(array $params): void
     {
-        $country = $this->option('country');
-        $category = $this->option('category');
-        $source = $this->option('source');
-
-        try {
-            $newsAPIService = new NewsAPIService($source);
-            $data = $newsAPIService->fetchTopHeadlines($country, $category);
-
-            if ($data['status'] === 'ok' && !empty($data['articles'])) {
-                $articleSeeder = app(ArticleSeeder::class);
-                $articleSeeder->seed($data['articles'], $category);
-                $this->info('Articles have been seeded successfully.');
-            } else {
-                $this->warn('No articles found in the fetched data.');
-            }
-        } catch (\Exception $e) {
-            \Log::error('Error: ' . $e->getMessage());
-            $this->error('Error: ' . $e->getMessage());
-        }
+        $service = app(NewsAPIService::class);
+        $articles = $service->fetch('top-headlines', [
+            'country' => $params['country'],
+            'category' => $params['category'],
+        ]);
+        app(ArticleSeeder::class)->seed($articles, $params['category']);
     }
 }
