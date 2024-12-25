@@ -134,6 +134,43 @@ Detailed API documentation is available and should be updated regularly using Sw
 
 ---
 
+
+### SOLID, DRY, and KISS in News Hub API
+
+This system follows best practices:
+
+1. **SOLID**  
+   - **Single Responsibility:** Each service handles a specific API; each command manages fetching and seeding.  
+   - **Open/Closed:** Add new APIs by extending `AbstractAPIService` and `BaseCommand`.  
+   - **Liskov Substitution:** All services work interchangeably under common contracts.
+
+2. **DRY**  
+   - Common API logic centralized in `AbstractAPIService`.  
+   - Command logic streamlined with `BaseCommand`.  
+
+3. **KISS**  
+   - API handling abstracted for simplicity.  
+   - Minimal logic in commands, standardized configurations.
+
+### Example Structure
+
+- **AbstractAPIService:** Centralized API handling (e.g., headers, responses).  
+- **BaseCommand:** Shared command logic for fetch-and-seed flow.  
+- **Extending Example:**  
+   - Services like `NYTimesAPIService` map and fetch API data.  
+   - Commands like `NYTimesAPI` handle parameters and seed data.
+
+This architecture ensures simplicity, modularity, and scalability.
+
+
+## Database ERD Documentation
+
+The full Entity-Relationship Diagram (ERD) for the **NewsHubAPI** database is available at the link below. It provides a detailed visual representation of all database tables, their fields, and relationships.
+
+**Diagram Name**: `DiagramNewsHubAPI`  
+**Link**: [DiagramNewsHubAPI ERD](https://dbdocs.io/hassan.gomaa.dev/DiagramNewsHubAPI)
+
+
 ## Developer Notes
 - **Rate Limiting**: Configured at `throttle:30,1`.
 - **Security**: Includes middleware for XSS sanitization and request validation.
@@ -143,4 +180,6 @@ Detailed API documentation is available and should be updated regularly using Sw
 
 ## Acknowledgments
 This project is fully developed and maintained by Eng. Hassan Gomaa. It integrates cutting-edge technologies and practices to deliver a seamless news aggregation experience.
+
+
 
