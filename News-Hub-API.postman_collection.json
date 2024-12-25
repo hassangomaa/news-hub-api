@@ -1,0 +1,208 @@
+{
+	"info": {
+		"_postman_id": "f15ccc17-d855-46dc-bd69-d17d7a50afa8",
+		"name": "News-Hub-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27782819",
+		"_collection_link": "https://orange-meteor-603436.postman.co/workspace/My-Workspace~9af94098-0e62-41f0-89fc-5ca78ce83d0e/collection/27782819-f15ccc17-d855-46dc-bd69-d17d7a50afa8?action=share&source=collection_link&creator=27782819"
+	},
+	"item": [
+		{
+			"name": "Articles",
+			"item": [
+				{
+					"name": "Get All Articles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/articles?per_page=2&page=3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articles"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Magnam sed ut eaque in dolores et.",
+									"disabled": true
+								},
+								{
+									"key": "category_id",
+									"value": "ff763e88-f5ba-4f6f-871c-e539d98b96ab",
+									"disabled": true
+								},
+								{
+									"key": "author_id",
+									"value": "0a64ad72-9ca7-4acf-a5ac-c58694df49da",
+									"disabled": true
+								},
+								{
+									"key": "source_id",
+									"value": "379dbf20-117e-4603-bbc3-476b184d4952",
+									"disabled": true
+								},
+								{
+									"key": "published_at",
+									"value": "2024-08-11",
+									"disabled": true
+								},
+								{
+									"key": "per_page",
+									"value": "2"
+								},
+								{
+									"key": "page",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "Get All Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/categories?per_page=2&page=2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"categories"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "cumque",
+									"disabled": true
+								},
+								{
+									"key": "per_page",
+									"value": "2"
+								},
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sources",
+			"item": [
+				{
+					"name": "Get All Sources",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/sources?per_page=1&page=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"sources"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "newscred",
+									"disabled": true
+								},
+								{
+									"key": "per_page",
+									"value": "1"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authors",
+			"item": [
+				{
+					"name": "Get All Authors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/authors?per_page=20&page=2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"authors"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "molestias",
+									"disabled": true
+								},
+								{
+									"key": "per_page",
+									"value": "20"
+								},
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://news-hub-api.test/api",
+			"type": "string"
+		}
+	]
+}
