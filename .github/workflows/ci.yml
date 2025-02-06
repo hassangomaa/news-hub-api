@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-    #   - develop
 
 jobs:
   test:
@@ -17,15 +16,40 @@ jobs:
           MYSQL_DATABASE: laravel_test
         ports:
           - 3306:3306
+          
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.2
-      - name: Install dependencies
+          extensions: mbstring, pdo, pdo_mysql, xml
+      
+      - name: Install Dependencies
         run: composer install --no-progress --prefer-dist
-      - name: Run migrations
-        run: php artisan migrate --env=testing
-      - name: Run tests
+
+      - name: Ensure .env file exists
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Wait for MySQL to be Ready
+        run: |
+          until mysqladmin ping -h"127.0.0.1" -uroot -prootpassword --silent; do
+            echo "Waiting for MySQL..."
+            sleep 3
+          done
+          echo "MySQL is ready!"
+
+      - name: Run Migrations & Seed Database
+        run: php artisan migrate:fresh --seed
+
+      - name: Clear Config & Cache
+        run: |
+          php artisan config:clear
+          php artisan cache:clear
+
+      - name: Run Tests
         run: php artisan test
