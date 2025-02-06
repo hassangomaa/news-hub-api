@@ -3,8 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\Source;
+use App\Repositories\Interfaces\CrudRepositoryInterface;
 
-class SourceRepository
+class SourceRepository implements CrudRepositoryInterface
 {
 
     protected $model;
