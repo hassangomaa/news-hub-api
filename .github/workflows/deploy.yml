@@ -15,22 +15,36 @@ jobs:
       - name: SSH into Server and Deploy
         run: |
           expect <<EOF
-          spawn ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
+          spawn ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
           expect "password:"
           send "${{ secrets.SSH_PASSWORD }}\r"
           expect "$ "
-          send "cd /home/u313493766/public_html/news-hub-api/ && git pull origin main\r"
+          send "cd /home/${{ secrets.SSH_USER }}/public_html/news-hub-api/\r"
+          send "git pull origin main\r"
           send "composer install --no-interaction --prefer-dist --optimize-autoloader\r"
           send "composer update --no-interaction\r"
-          send "if [ ! -f .env ]; then cp .env.example .env; fi\r"
+          
+          # Ensure .env file exists
+          send "test -f .env || cp .env.example .env\r"
+
+          # Inject API Keys from GitHub Secrets
           send "echo '\nNEWSAPI_API_KEY=${{ secrets.NEWSAPI_API_KEY }}' >> .env\r"
           send "echo 'GUARDIAN_API_KEY=${{ secrets.GUARDIAN_API_KEY }}' >> .env\r"
           send "echo 'NYT_API_KEY=${{ secrets.NYT_API_KEY }}' >> .env\r"
+
+          # Run Laravel Migrations & Seeders
           send "php artisan migrate --force\r"
           send "php artisan migrate:fresh --seed --force\r"
+
+          # Generate application key
           send "php artisan key:generate\r"
+
+          # Optimize Laravel
           send "composer dump-autoload\r"
+
+          # Run Laravel Tests
           send "php artisan test\r"
+
           send "exit\r"
           expect eof
           EOF
