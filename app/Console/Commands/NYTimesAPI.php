@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Services\NYTimesAPIService;
 use App\Helpers\ArticleSeeder;
+use App\Services\NYTimesAPIService;
 
 class NYTimesAPI extends BaseCommand
 {

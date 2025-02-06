@@ -9,7 +9,9 @@ use Illuminate\Support\Str;
 class Article extends Model
 {
     use HasFactory;
+
     protected $primaryKey = 'id';
+
     public $incrementing = false;
 
     protected $fillable = [
@@ -21,6 +23,7 @@ class Article extends Model
         'url',
         'published_at',
     ];
+
     protected static function boot()
     {
         parent::boot();
@@ -38,7 +41,6 @@ class Article extends Model
     {
         return $this->belongsTo(Author::class);
     }
-
 
     public function category()
     {

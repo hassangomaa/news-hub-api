@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Article\IndexArticleRequest;
 use App\Http\Requests\Article\CreateArticleRequest;
+use App\Http\Requests\Article\IndexArticleRequest;
 use App\Http\Resources\ArticleResource;
 use App\Services\ArticleService;
 use App\Traits\ResponsesTrait;
@@ -32,7 +32,6 @@ class ArticleController extends Controller
 
             $meta = $this->generateMeta($articles);
 
-
             return $this->success(
                 ArticleResource::collection($articles),
                 'Articles retrieved successfully.',
@@ -41,10 +40,10 @@ class ArticleController extends Controller
             );
         } catch (\Exception $e) {
             Log::error("Error fetching articles: {$e->getMessage()}");
+
             return $this->failed(null, 'Failed to retrieve articles.', 500);
         }
     }
-
 
     /**
      * Create a new article.
@@ -61,6 +60,7 @@ class ArticleController extends Controller
             );
         } catch (\Exception $e) {
             Log::error("Error creating article: {$e->getMessage()}");
+
             return $this->failed(null, 'Failed to create article.');
         }
     }

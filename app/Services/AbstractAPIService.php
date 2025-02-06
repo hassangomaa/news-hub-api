@@ -7,8 +7,11 @@ use Illuminate\Support\Facades\Http;
 abstract class AbstractAPIService
 {
     protected string $baseUrl;
+
     protected string $apiKey;
+
     protected string $keyPlacement; // 'header' or 'query'
+
     protected string $keyName; // e.g., 'x-api-key' for headers or 'api-key' for query
 
     abstract protected function mapResponse(array $data): array;
@@ -23,7 +26,7 @@ abstract class AbstractAPIService
             } else { // 'query'
                 $params[$this->keyName] = $this->apiKey;
                 $response = Http::get("{$this->baseUrl}{$endpoint}", $params);
-                
+
             }
             // dd($response);
 

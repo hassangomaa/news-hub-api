@@ -9,7 +9,6 @@ use App\Traits\ResponsesTrait;
 
 class SourceController extends Controller
 {
-
     use ResponsesTrait;
 
     protected $sourceService;
@@ -27,6 +26,7 @@ class SourceController extends Controller
             $sources = $this->sourceService->getAllSources($filters, $filters['per_page'], $filters['page']);
 
             $meta = $this->generateMeta($sources);
+
             return $this->success(
                 SourceResource::collection($sources),
                 'Sources retrieved successfully.',
@@ -35,13 +35,8 @@ class SourceController extends Controller
             );
         } catch (\Exception $e) {
             \Log::error("Error retrieving sources: {$e->getMessage()}");
+
             return $this->failed(null, 'Failed to retrieve sources. Please try again.', 500);
         }
     }
-
-
-
-
-
-
 }

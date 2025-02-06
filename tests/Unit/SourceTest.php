@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Models\Source;
 use App\Models\Article;
+use App\Models\Source;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -54,7 +54,7 @@ class SourceTest extends TestCase
 
         Source::factory()->count(15)->create();
 
-        //dd all sources
+        // dd all sources
 
         $sources = Source::paginate(10);
         // dd($sources);

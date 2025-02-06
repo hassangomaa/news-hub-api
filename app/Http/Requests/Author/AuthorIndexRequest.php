@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests\Author;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Traits\ResponsesTrait;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
 class AuthorIndexRequest extends FormRequest
 {
-
     use ResponsesTrait;
 
     public function failedValidation(Validator $validator)

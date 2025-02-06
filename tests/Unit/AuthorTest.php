@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Models\Author;
 use App\Models\Article;
+use App\Models\Author;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

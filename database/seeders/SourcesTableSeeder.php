@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Source;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class SourcesTableSeeder extends Seeder
@@ -53,10 +52,10 @@ class SourcesTableSeeder extends Seeder
 
         foreach ($sources as $source) {
             Source::updateOrCreate(
-                ['name' => $source['name']], 
+                ['name' => $source['name']],
                 [
                     'api_key' => $source['api_key'],
-                    'base_url' => $source['base_url']
+                    'base_url' => $source['base_url'],
                 ]
             );
         }
