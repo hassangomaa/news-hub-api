@@ -1,0 +1,31 @@
+name: Laravel CI
+
+on:
+  push:
+    branches:
+      - main
+    #   - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_DATABASE: laravel_test
+        ports:
+          - 3306:3306
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist
+      - name: Run migrations
+        run: php artisan migrate --env=testing
+      - name: Run tests
+        run: php artisan test

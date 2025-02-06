@@ -171,6 +171,137 @@ The full Entity-Relationship Diagram (ERD) for the **NewsHubAPI** database is av
 **Link**: [DiagramNewsHubAPI ERD](https://dbdocs.io/hassan.gomaa.dev/DiagramNewsHubAPI)
 
 
+
+## **🛠 How to Run the Application using Docker**  
+
+This section provides step-by-step instructions to set up and run the **News Hub API** using Docker and Docker Compose.  
+
+---
+
+### **1️⃣ Prerequisites**
+Before you start, ensure you have the following installed on your system:  
+
+- **Docker**: [Download Docker](https://www.docker.com/get-started)  
+- **Docker Compose** (included with Docker Desktop)  
+
+---
+
+### **2️⃣ Clone the Repository**
+Run the following command to clone the repository:  
+
+```bash
+git clone https://github.com/hassangomaa/news-hub-api.git
+cd news-hub-api
+```
+
+---
+
+### **3️⃣ Configure Environment Variables**
+Create a `.env` file (if not already present) by copying the example configuration:  
+
+```bash
+cp .env.example .env
+```
+
+Then, update the `.env` file with your **database credentials** and **API keys**.
+
+---
+
+### **4️⃣ Build and Start the Docker Containers**
+Run the following command to build and start the containers:  
+
+```bash
+docker-compose up --build -d
+```
+
+This will:  
+✅ Build the PHP Laravel container  
+✅ Start the MySQL database container  
+✅ Start the Nginx web server  
+✅ Start PhpMyAdmin for database management  
+
+---
+
+### **5️⃣ Verify Running Containers**
+To check if all containers are running properly, use:  
+
+```bash
+docker ps
+```
+
+You should see containers running for:  
+✅ `laravel_app` (Laravel App)  
+✅ `laravel_mysql` (MySQL Database)  
+✅ `laravel_nginx` (Nginx Server)  
+✅ `laravel_phpmyadmin` (PhpMyAdmin)  
+
+---
+
+### **6️⃣ Run Database Migrations**
+After the containers are up, run database migrations inside the Laravel container:  
+
+```bash
+docker exec -it laravel_app php artisan migrate --seed
+```
+
+This will set up the database schema and seed initial data.
+
+---
+
+### **7️⃣ Access the Application**
+- **API Endpoints**: `http://localhost:8000/api`  
+- **PhpMyAdmin** (Database UI): `http://localhost:8080`  
+  - Username: `laravel_user`  
+  - Password: `laravel_password`  
+
+---
+
+### **8️⃣ Stopping and Restarting Docker Containers**
+To stop the containers:  
+
+```bash
+docker-compose down
+```
+
+To restart the containers:  
+
+```bash
+docker-compose up -d
+```
+
+---
+
+### **9️⃣ Running Artisan Commands Inside the Container**
+To run any Laravel Artisan command, use:  
+
+```bash
+docker exec -it laravel_app php artisan <command>
+```
+
+For example, to clear the cache:
+
+```bash
+docker exec -it laravel_app php artisan cache:clear
+```
+
+---
+
+### **🔹 Troubleshooting**
+- If you get permission errors, run:
+
+```bash
+sudo chmod -R 777 storage bootstrap/cache
+```
+
+- To check logs inside the app container:
+
+```bash
+docker logs laravel_app
+```
+
+---
+
+
 ## Developer Notes
 - **Rate Limiting**: Configured at `throttle:30,1`.
 - **Security**: Includes middleware for XSS sanitization and request validation.
@@ -180,6 +311,3 @@ The full Entity-Relationship Diagram (ERD) for the **NewsHubAPI** database is av
 
 ## Acknowledgments
 This project is fully developed and maintained by Eng. Hassan Gomaa. It integrates cutting-edge technologies and practices to deliver a seamless news aggregation experience.
-
-
-
