@@ -19,7 +19,7 @@ jobs:
           expect "password:"
           send "${{ secrets.SSH_PASSWORD }}\r"
           expect "$ "
-          send "cd /var/www/news-hub-api && git pull origin main\r"
+          send "cd /home/u313493766/public_html/news-hub-api/ && git pull origin main\r"
           send "composer install --no-interaction --prefer-dist --optimize-autoloader\r"
           send "composer update --no-interaction\r"
           send "if [ ! -f .env ]; then cp .env.example .env; fi\r"
