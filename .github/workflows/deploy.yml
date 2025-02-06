@@ -26,7 +26,7 @@ jobs:
           
           # Ensure .env file exists
           send "cp .env.example .env\r"
-
+          send "php artisan key:generate\r"
           # Inject API Keys from GitHub Secrets
           send "echo '\nNEWSAPI_API_KEY=${{ secrets.NEWSAPI_API_KEY }}' >> .env\r"
           send "echo 'GUARDIAN_API_KEY=${{ secrets.GUARDIAN_API_KEY }}' >> .env\r"
