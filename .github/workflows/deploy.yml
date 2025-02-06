@@ -33,7 +33,6 @@ jobs:
           send "echo 'NYT_API_KEY=${{ secrets.NYT_API_KEY }}' >> .env\r"
 
           # Run Laravel Migrations & Seeders
-          send "php artisan migrate --force\r"
           send "php artisan migrate:fresh --seed --force\r"
 
           # Generate application key
