@@ -27,7 +27,7 @@ class ArticleFactory extends Factory
             'description' => $this->faker->paragraph(),
             'url' => $this->faker->unique()->url(),
             'published_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
-            'source_id' => Source::InRandomOrder()->first()->id,
+            'source_id' => Source::factory(),
             'author_id' => Author::factory(),
             'category_id' => Category::factory(),
         ];

@@ -20,7 +20,22 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         // $this->call(SourcesTableSeeder::class);
-        // \App\Models\Article::factory(50)->create(); // Adjust the number of articles as needed
+  
+        
+        // / Seed Authors
+        \App\Models\Author::factory(10)->create();
+        $this->command->info('✅ Authors seeded successfully.');
 
+        // Seed Categories
+        \App\Models\Category::factory(5)->create();
+        $this->command->info('✅ Categories seeded successfully.');
+
+        // Seed Sources
+        \App\Models\Source::factory(7)->create();
+        $this->command->info('✅ Sources seeded successfully.');
+
+        // Seed Articles
+        \App\Models\Article::factory(50)->create();
+        $this->command->info('✅ Articles seeded successfully.');
     }
 }
