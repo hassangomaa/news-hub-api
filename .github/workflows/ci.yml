@@ -14,6 +14,8 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: rootpassword
           MYSQL_DATABASE: laravel_test
+          MYSQL_USER: laravel_user
+          MYSQL_PASSWORD: laravel_password
         ports:
           - 3306:3306
           
@@ -34,6 +36,12 @@ jobs:
         run: |
           cp .env.example .env
           php artisan key:generate
+          echo "DB_CONNECTION=mysql" >> .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_PORT=3306" >> .env
+          echo "DB_DATABASE=laravel_test" >> .env
+          echo "DB_USERNAME=root" >> .env
+          echo "DB_PASSWORD=rootpassword" >> .env
 
       - name: Wait for MySQL to be Ready
         run: |
