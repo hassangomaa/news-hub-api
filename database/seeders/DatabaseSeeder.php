@@ -20,8 +20,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         // $this->call(SourcesTableSeeder::class);
-  
-        
+
         // / Seed Authors
         \App\Models\Author::factory(10)->create();
         $this->command->info('✅ Authors seeded successfully.');

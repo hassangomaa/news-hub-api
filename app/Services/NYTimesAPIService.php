@@ -1,13 +1,13 @@
 <?php
 
-
-
 namespace App\Services;
 
 class NYTimesAPIService extends AbstractAPIService
 {
     protected string $baseUrl;
+
     protected string $apiKey;
+
     public function __construct()
     {
         $this->apiKey = config('newsapi.sources.nytimes.api_key');

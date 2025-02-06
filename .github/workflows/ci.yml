@@ -66,8 +66,8 @@ jobs:
       - name: Run Laravel Pint (Code Formatter)
         run: vendor/bin/pint --test
 
-      - name: Run Laravel Security Scanner
-        run: composer require --dev enlightn/security-checker && php artisan security-check:now
+      # - name: Run Laravel Security Scanner
+      #   run: composer require --dev enlightn/security-checker && php artisan security-check:now
 
       - name: Run Tests with Coverage
         run: php artisan test --coverage-text

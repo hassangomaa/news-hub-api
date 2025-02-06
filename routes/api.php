@@ -1,12 +1,11 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthorController;
-use App\Http\Controllers\SourceController;
 use App\Http\Controllers\CategoryController;
-
+use App\Http\Controllers\SourceController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,8 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index'); // List all articles with filters and pagination
 // List all authors with optional filters and pagination
 Route::get('/authors', [AuthorController::class, 'index'])->name('authors.index');
@@ -32,4 +29,3 @@ Route::get('/authors', [AuthorController::class, 'index'])->name('authors.index'
 Route::get('/sources', [SourceController::class, 'index'])->name('sources.index');
 // List all categories with optional filters and pagination
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-

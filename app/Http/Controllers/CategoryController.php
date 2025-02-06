@@ -9,7 +9,6 @@ use App\Traits\ResponsesTrait;
 
 class CategoryController extends Controller
 {
-
     use ResponsesTrait;
 
     protected $categoryService;
@@ -30,6 +29,7 @@ class CategoryController extends Controller
             $categories = $this->categoryService->getAllCategories($filters, $filters['per_page'], $filters['page']);
 
             $meta = $this->generateMeta($categories);
+
             // Return a standardized success response with the data and metadata
             return $this->success(
                 CategoryResource::collection($categories),
@@ -39,10 +39,9 @@ class CategoryController extends Controller
             );
         } catch (\Exception $e) {
             // Log the error and return a standardized failure response
-            \Log::error("Error retrieving categories: " . $e->getMessage());
+            \Log::error('Error retrieving categories: '.$e->getMessage());
+
             return $this->failed(null, 'Failed to retrieve categories. Please try again.', 500);
         }
     }
-
-
 }

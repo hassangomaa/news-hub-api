@@ -9,7 +9,9 @@ use Illuminate\Support\Str;
 class Source extends Model
 {
     use HasFactory;
+
     protected $primaryKey = 'id';
+
     public $incrementing = false;
 
     protected $fillable = [
