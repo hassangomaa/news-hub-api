@@ -7,10 +7,10 @@ trait ResponsesTrait
     /**
      * Standardized success response.
      *
-     * @param mixed $data
-     * @param string|null $msg
-     * @param int $status
-     * @param array|null $meta
+     * @param  mixed  $data
+     * @param  string|null  $msg
+     * @param  int  $status
+     * @param  array|null  $meta
      * @return \Illuminate\Http\JsonResponse
      */
     public function success($data = null, $msg = null, $status = 200, $meta = null)
@@ -31,9 +31,9 @@ trait ResponsesTrait
     /**
      * Standardized failure response.
      *
-     * @param mixed $data
-     * @param string|null $msg
-     * @param int $status
+     * @param  mixed  $data
+     * @param  string|null  $msg
+     * @param  int  $status
      * @return \Illuminate\Http\JsonResponse
      */
     public function failed($data = null, $msg = null, $status = 400)
@@ -45,12 +45,10 @@ trait ResponsesTrait
         ], $status);
     }
 
-
     /**
      * Generate standardized meta for pagination.
      *
-     * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
-     * @return array
+     * @param  \Illuminate\Contracts\Pagination\LengthAwarePaginator  $paginator
      */
     public function generateMeta($paginator): array
     {

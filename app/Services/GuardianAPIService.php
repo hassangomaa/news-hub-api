@@ -5,6 +5,7 @@ namespace App\Services;
 class GuardianAPIService extends AbstractAPIService
 {
     protected string $baseUrl;
+
     protected string $apiKey;
 
     public function __construct()

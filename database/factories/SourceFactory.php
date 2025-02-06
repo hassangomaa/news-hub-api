@@ -28,7 +28,7 @@ class SourceFactory extends Factory
                 'nyt',
                 'bbc',
                 'newsapi_org',
-            ]) . ' Source ' . $this->faker->unique()->numberBetween(199, 99999),
+            ]).' Source '.$this->faker->unique()->numberBetween(199, 99999),
             'api_key' => $this->faker->uuid(), // Simulating API Key
             'base_url' => $this->faker->randomElement([
                 'https://newsapi.org/v2/',

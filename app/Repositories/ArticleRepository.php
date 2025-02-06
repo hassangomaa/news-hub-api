@@ -15,43 +15,40 @@ class ArticleRepository implements CrudRepositoryInterface
         $this->model = $model;
     }
 
-
     /**
      * Get paginated and filtered articles.
      *
-     * @param array $filters
-     * @param int $perPage
+     * @param  int  $perPage
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getAll(array $filters = [], $perPage, $page)
+    public function getAll(array $filters, $perPage, $page)
     {
         $query = $this->model::query()->with(['category', 'author', 'source']);
 
         // Apply filters
-        if (!empty($filters['title'])) {
-            $query->where('title', 'LIKE', '%' . $filters['title'] . '%');
+        if (! empty($filters['title'])) {
+            $query->where('title', 'LIKE', '%'.$filters['title'].'%');
         }
 
-        if (!empty($filters['category_id'])) {
+        if (! empty($filters['category_id'])) {
             $query->where('category_id', $filters['category_id']);
         }
 
-        if (!empty($filters['author_id'])) {
+        if (! empty($filters['author_id'])) {
             $query->where('author_id', $filters['author_id']);
         }
 
-        if (!empty($filters['source_id'])) {
+        if (! empty($filters['source_id'])) {
             $query->where('source_id', $filters['source_id']);
         }
 
-        if (!empty($filters['published_at'])) {
+        if (! empty($filters['published_at'])) {
             $query->whereDate('published_at', $filters['published_at']);
         }
+
         return $query->paginate($perPage, ['*'], 'page', $page);
 
     }
-
-
 
     public function create(array $data)
     {
@@ -61,7 +58,6 @@ class ArticleRepository implements CrudRepositoryInterface
     /**
      * Get existing URLs from the database.
      *
-     * @param array $urls
      * @return array
      */
     public function getExistingUrls(array $urls)
@@ -72,7 +68,6 @@ class ArticleRepository implements CrudRepositoryInterface
     /**
      * Bulk insert articles.
      *
-     * @param array $articlesData
      * @return void
      */
     public function insertMany(array $articlesData)
@@ -81,7 +76,7 @@ class ArticleRepository implements CrudRepositoryInterface
             // Pre-filter to remove already existing URLs
             $existingUrls = $this->getExistingUrls(array_column($articlesData, 'url'));
             $filteredArticles = array_filter($articlesData, function ($article) use ($existingUrls) {
-                return !in_array($article['url'], $existingUrls);
+                return ! in_array($article['url'], $existingUrls);
             });
 
             // Add UUIDs manually since `insert` bypasses Eloquent events
@@ -89,25 +84,22 @@ class ArticleRepository implements CrudRepositoryInterface
                 $article['id'] = (string) \Illuminate\Support\Str::uuid();
                 $article['created_at'] = now();
                 $article['updated_at'] = now();
+
                 return $article;
             }, $filteredArticles);
 
             // Perform bulk insert
-            if (!empty($processedArticles)) {
+            if (! empty($processedArticles)) {
                 $this->model->insert($processedArticles);
             }
         } catch (\Exception $e) {
-            Log::error("Error inserting articles: " . $e->getMessage());
+            Log::error('Error inserting articles: '.$e->getMessage());
             throw $e;
         }
     }
-
-
 
     public function updateOrCreate(array $conditions, array $data)
     {
         return $this->model->updateOrCreate($conditions, $data);
     }
-
-
 }

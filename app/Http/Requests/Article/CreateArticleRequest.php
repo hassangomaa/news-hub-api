@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests\Article;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Traits\ResponsesTrait;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
 class CreateArticleRequest extends FormRequest
 {
-
     use ResponsesTrait;
 
     public function failedValidation(Validator $validator)
@@ -41,7 +41,6 @@ class CreateArticleRequest extends FormRequest
             'category_id' => 'nullable|uuid|exists:categories,id',
         ];
     }
-
 
     /**
      * Customize error messages.

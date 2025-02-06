@@ -28,19 +28,19 @@ class ArticleSeeder
                     : now();
 
                 // Handle source
-                if (!isset($sourcesData[$sourceName])) {
+                if (! isset($sourcesData[$sourceName])) {
                     $source = app(SourceService::class)->createOrUpdate(['name' => $sourceName]);
                     $sourcesData[$sourceName] = $source->id;
                 }
 
                 // Handle author
-                if (!isset($authorsData[$authorName])) {
+                if (! isset($authorsData[$authorName])) {
                     $author = app(AuthorService::class)->createOrUpdate(['name' => $authorName]);
                     $authorsData[$authorName] = $author->id;
                 }
 
                 // Handle category
-                if (!isset($categoriesData[$category])) {
+                if (! isset($categoriesData[$category])) {
                     $categoryEntity = app(CategoryService::class)->createOrUpdate(['name' => $category]);
                     $categoriesData[$category] = $categoryEntity->id;
                 }
@@ -64,12 +64,13 @@ class ArticleSeeder
                 }
             } catch (\Exception $e) {
                 \Log::error("Error processing article data: {$e->getMessage()}", ['articleData' => $articleData]);
+
                 continue;
             }
         }
 
         // Process remaining data
-        if (!empty($articlesData)) {
+        if (! empty($articlesData)) {
             $this->processBatch($articlesData);
         }
     }
@@ -78,7 +79,7 @@ class ArticleSeeder
     {
         try {
             app(ArticleService::class)->createManyArticles($articlesData);
-            \Log::info("Batch processed successfully with " . count($articlesData) . " articles.");
+            \Log::info('Batch processed successfully with '.count($articlesData).' articles.');
         } catch (\Exception $e) {
             \Log::error("Error processing batch: {$e->getMessage()}");
         } finally {

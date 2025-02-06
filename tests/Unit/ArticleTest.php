@@ -6,9 +6,8 @@ use App\Models\Article;
 use App\Models\Author;
 use App\Models\Category;
 use App\Models\Source;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
-
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ArticleTest extends TestCase
@@ -42,7 +41,6 @@ class ArticleTest extends TestCase
     /** @test */
     public function it_belongs_to_a_source()
     {
-        
 
         $article = Article::factory()->create();
 
@@ -52,7 +50,6 @@ class ArticleTest extends TestCase
     /** @test */
     public function it_belongs_to_an_author()
     {
-        
 
         $article = Article::factory()->create();
 
@@ -62,7 +59,6 @@ class ArticleTest extends TestCase
     /** @test */
     public function it_belongs_to_a_category()
     {
-        
 
         $article = Article::factory()->create();
 
@@ -72,7 +68,6 @@ class ArticleTest extends TestCase
     /** @test */
     public function it_can_filter_articles_by_title()
     {
-        
 
         Article::factory()->create(['title' => 'Laravel Testing Guide']);
         Article::factory()->create(['title' => 'PHP Best Practices']);
@@ -86,7 +81,6 @@ class ArticleTest extends TestCase
     /** @test */
     public function it_can_filter_articles_by_category()
     {
-        
 
         $category = Category::factory()->create();
 

@@ -38,9 +38,8 @@ class AuthorController extends Controller
             );
         } catch (\Exception $e) {
             \Log::error("Error retrieving authors: {$e->getMessage()}");
+
             return $this->failed(null, 'Failed to retrieve authors. Please try again.', 500);
         }
     }
-
-
 }

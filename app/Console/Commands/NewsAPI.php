@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Services\NewsAPIService;
 use App\Helpers\ArticleSeeder;
+use App\Services\NewsAPIService;
 
 class NewsAPI extends BaseCommand
 {
@@ -11,6 +11,7 @@ class NewsAPI extends BaseCommand
                             {--country=us : Country code for fetching news} 
                             {--category=technology : News category to fetch} 
                             {--source=newsapi : Source name from the configuration}';
+
     protected $description = 'Fetch data from the News API and seed the database.';
 
     protected function fetchAndSeed(array $params): void

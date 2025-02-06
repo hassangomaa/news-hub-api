@@ -9,12 +9,15 @@ use Illuminate\Support\Str;
 class Author extends Model
 {
     use HasFactory;
+
     protected $primaryKey = 'id';
+
     public $incrementing = false;
 
     protected $fillable = [
         'name',
     ];
+
     protected static function boot()
     {
         parent::boot();
