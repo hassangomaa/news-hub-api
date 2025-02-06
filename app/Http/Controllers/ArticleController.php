@@ -7,6 +7,7 @@ use App\Http\Requests\Article\CreateArticleRequest;
 use App\Http\Resources\ArticleResource;
 use App\Services\ArticleService;
 use App\Traits\ResponsesTrait;
+use Illuminate\Support\Facades\Log;
 
 class ArticleController extends Controller
 {
@@ -39,7 +40,7 @@ class ArticleController extends Controller
                 $meta
             );
         } catch (\Exception $e) {
-            \Log::error("Error fetching articles: {$e->getMessage()}");
+            Log::error("Error fetching articles: {$e->getMessage()}");
             return $this->failed(null, 'Failed to retrieve articles.', 500);
         }
     }
@@ -59,7 +60,7 @@ class ArticleController extends Controller
                 201
             );
         } catch (\Exception $e) {
-            \Log::error("Error creating article: {$e->getMessage()}");
+            Log::error("Error creating article: {$e->getMessage()}");
             return $this->failed(null, 'Failed to create article.');
         }
     }

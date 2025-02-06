@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Article;
 use App\Repositories\Interfaces\CrudRepositoryInterface;
+use Illuminate\Support\Facades\Log;
 
 class ArticleRepository implements CrudRepositoryInterface
 {
@@ -96,7 +97,7 @@ class ArticleRepository implements CrudRepositoryInterface
                 $this->model->insert($processedArticles);
             }
         } catch (\Exception $e) {
-            \Log::error("Error inserting articles: " . $e->getMessage());
+            Log::error("Error inserting articles: " . $e->getMessage());
             throw $e;
         }
     }
