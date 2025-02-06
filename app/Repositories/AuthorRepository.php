@@ -3,8 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\Author;
+use App\Repositories\Interfaces\CrudRepositoryInterface;
 
-class AuthorRepository
+class AuthorRepository implements CrudRepositoryInterface
 {
 
     protected $model;

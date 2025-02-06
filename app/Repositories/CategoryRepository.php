@@ -3,8 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\Category;
+use App\Repositories\Interfaces\CrudRepositoryInterface;
 
-class CategoryRepository
+class CategoryRepository implements CrudRepositoryInterface
 {
 
 
