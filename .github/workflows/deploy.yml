@@ -25,7 +25,7 @@ jobs:
           send "composer2 update --no-interaction\r"
           
           # Ensure .env file exists
-          send "test -f .env || cp .env.example .env\r"
+          send "cp .env.example .env\r"
 
           # Inject API Keys from GitHub Secrets
           send "echo '\nNEWSAPI_API_KEY=${{ secrets.NEWSAPI_API_KEY }}' >> .env\r"
